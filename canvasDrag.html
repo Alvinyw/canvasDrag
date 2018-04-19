@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ds-select</title>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="canvasDrag.min.js"></script>
+<style>
+#main { width: 980px; margin: 30px auto 200px; }
+h2 { margin:50px 0 20px;}
+.showMouse { width: 600px; }
+.showMouse span { display: inline-block; margin-right: 20px; width: 100px; height: 30px; line-height: 30px; text-align: center; border: 1px solid #ccc; }
+#aa, #bb { margin: 20px 0 0; width: 600px; height: 400px; }
+</style>
+</head>
+<body>
+<div id="main">
+    <h2>示例一：</h2>
+    <div class="showMouse"><span class="mouseX-aa">0</span><span class="mouseY-aa">0</span></div>
+    <div id="aa"> </div>
+    <h2>示例二：</h2>
+    <div class="showMouse"><span class="mouseX-bb">0</span><span class="mouseY-bb">0</span></div>
+    <div id="bb"> </div>
+</div>
+</body>
+<script>
+$(function(){
+	$().canvasDrag({
+		operationPanel: "#aa",
+		dragBgSrc: "2.png",
+		defaultPointInfo: [58,189,440,87,475,211,92,314],
+		mouseX: ".showMouse .mouseX-aa",
+		mouseY: ".showMouse .mouseY-aa"
+	});
+	$().canvasDrag({
+		operationPanel: "#bb",
+		dragBgSrc: "1.png",
+		mouseX: ".showMouse .mouseX-bb",
+		mouseY: ".showMouse .mouseY-bb"
+	});
+});
+</script>
+</html>
