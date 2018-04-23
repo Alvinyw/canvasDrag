@@ -39,7 +39,6 @@ $.fn.canvasDrag = function (options) {
 		
 	//初始角点信息
 	var pointInfo = new Array(8);
-	pointInfo = settings.defaultPointInfo==''?[]:settings.defaultPointInfo;
 	
 	//中点坐标数组
 	var midPointInfo = new Array(8);
@@ -67,51 +66,77 @@ $.fn.canvasDrag = function (options) {
 	//外部容器宽高比
 	var parentAspectRatio = operationPanelW / operationPanelH;
 	
-	
-	//创建新图片
-	var dragBgImage = new Image();
-	//drag 操作的背景图
-	dragBgImage.src = settings.dragBgSrc;
-	dragBgImage.onload = function() {
-		//等比压缩图片的宽高，使图片上下居中
-		var imgAspectRatio = dragBgImage.width / dragBgImage.height;
-		$(dragBgImage).css("position","absolute");
-		if(imgAspectRatio > parentAspectRatio){
-		   dragBgImage.width = operationPanelW;
-		   dragBgImage.height = operationPanelW/imgAspectRatio;
-		   $(dragBgImage).css({"top":(operationPanelH - dragBgImage.height)/2,"left":0});
-		}else {
-		   dragBgImage.height = operationPanelH;
-		   dragBgImage.width = dragBgImage.height*imgAspectRatio;
-		   $(dragBgImage).css({"top":0,"left":(operationPanelW - dragBgImage.width)/2});
-		}
-		//如未设置角点坐标数组，则根据图片缩放后的宽高初始化角点位置信息
-		if(pointInfo[0]==null){
-			pointInfo[0] = 0;
-			pointInfo[1] = 0;
-			pointInfo[2] = dragBgImage.width;
-			pointInfo[3] = 0
-			pointInfo[4] = dragBgImage.width;
-			pointInfo[5] = dragBgImage.height;
-			pointInfo[6] = 0;
-			pointInfo[7] = dragBgImage.height;
-		}
-		//设置 Canvas 画布的宽高
-		canvasEditer.attr("width",dragBgImage.width).attr("height",dragBgImage.height);
-		canvasEditer.css({"top":(operationPanelH - dragBgImage.height)/2,"left":(operationPanelW - dragBgImage.width)/2});
-		drawRect();
-	};
-	
-	//将图片添加到画板里
-	dragBgContent.append(dragBgImage);
-	
 	//初始化主框架样式
 	canvasDragWrapper.css({"position":"relative","width":operationPanelW,"height":operationPanelH,"border":settings.canvasWrapperBorder});
 	dragBgContent.css({"position":"relative","width":operationPanelW,"height":operationPanelH});
-	canvasEditer.css({"position":"absolute","user-select":"none","-webkit-user-select":"none","-moz-user-select":"none","-ms-user-select":"none"});
+	canvasEditer.css({"position":"absolute","top":0,"left":0,"user-select":"none","-webkit-user-select":"none","-moz-user-select":"none","-ms-user-select":"none"});
+	canvasEditer.attr("width",operationPanelW).attr("height",operationPanelH);
 	
+	if(settings.dragBgSrc!=""){
+		//创建新图片
+		var dragBgImage = new Image();
+		//drag 操作的背景图
+		dragBgImage.src = settings.dragBgSrc;
+		dragBgImage.onload = function() {
+			//等比压缩图片的宽高，使图片上下居中
+			var imgAspectRatio = dragBgImage.width / dragBgImage.height;
+			$(dragBgImage).css("position","absolute");
+			if(imgAspectRatio > parentAspectRatio){
+			   dragBgImage.width = operationPanelW;
+			   dragBgImage.height = operationPanelW/imgAspectRatio;
+			   $(dragBgImage).css({"top":(operationPanelH - dragBgImage.height)/2,"left":0});
+			}else {
+			   dragBgImage.height = operationPanelH;
+			   dragBgImage.width = dragBgImage.height*imgAspectRatio;
+			   $(dragBgImage).css({"top":0,"left":(operationPanelW - dragBgImage.width)/2});
+			}
+			//设置 Canvas 画布的宽高
+			canvasEditer.attr("width",dragBgImage.width).attr("height",dragBgImage.height);
+			canvasEditer.css({"top":(operationPanelH - dragBgImage.height)/2,"left":(operationPanelW - dragBgImage.width)/2});
+			
+			//手动设置了有效的 defaultPointInfo
+			if(settings.defaultPointInfo.length==8){
+				for (var i=0;i < settings.defaultPointInfo.length;i++) {
+					pointInfo[i] = settings.defaultPointInfo[i];
+				}
+			}else{
+				//若未设置有效的 defaultPointInfo，则根据图片缩放后的宽高初始化角点位置信息
+				pointInfo[0] = 0;
+				pointInfo[1] = 0;
+				pointInfo[2] = dragBgImage.width;
+				pointInfo[3] = 0
+				pointInfo[4] = dragBgImage.width;
+				pointInfo[5] = dragBgImage.height;
+				pointInfo[6] = 0;
+				pointInfo[7] = dragBgImage.height;
+			}
+			
+			//绘制画板的初始形态
+			drawRect();
+			
+		};
+		//将图片添加到画板里
+		dragBgContent.append(dragBgImage);
+	}else if(settings.defaultPointInfo.length==8){
+		for (var i=0;i < settings.defaultPointInfo.length;i++) {
+			pointInfo[i] = settings.defaultPointInfo[i];
+		}
+	}else{
+		//如果 dragBgSrc 和 defaultPointInfo 都未设置
+		pointInfo[0] = 0;
+		pointInfo[1] = 0;
+		pointInfo[2] = canvasEditer.width();
+		pointInfo[3] = 0
+		pointInfo[4] = canvasEditer.width();
+		pointInfo[5] = canvasEditer.height();
+		pointInfo[6] = 0;
+		pointInfo[7] = canvasEditer.height();
+	}
 	
-	//绘制画布
+	//绘制画板的初始形态
+	drawRect();
+	
+	//方法：绘制画布
 	function drawRect(){	
 		var ctx = canvasEditer[0].getContext('2d');
 		ctx.clearRect(0,0,canvasEditer.width(),canvasEditer.height());

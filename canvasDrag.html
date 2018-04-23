@@ -7,24 +7,31 @@
 <script type="text/javascript" src="canvasDrag.min.js"></script>
 <style>
 #main { width: 980px; margin: 30px auto 200px; }
-h2 { margin:50px 0 20px;}
+h2 { margin: 50px 0 20px; }
 .showMouse { width: 600px; }
 .showMouse span { display: inline-block; margin-right: 20px; width: 100px; height: 30px; line-height: 30px; text-align: center; border: 1px solid #ccc; }
-#aa, #bb { margin: 20px 0 0; width: 600px; height: 400px; }
+#operationPanel, #aa, #bb, #cc { margin: 20px 0 0; width: 600px; height: 400px; }
 </style>
 </head>
 <body>
 <div id="main">
-    <h2>示例一：</h2>
+    <h2>一、默认用法（dragBgSrc 和 defaultPointInfo 均为空）：</h2>
+    <div class="showMouse"><span id="mouseX">0</span><span id="mouseY">0</span></div>
+    <div id="operationPanel"> </div>
+    <h2>二、dragBgSrc 和 defaultPointInfo 均不为空：</h2>
     <div class="showMouse"><span class="mouseX-aa">0</span><span class="mouseY-aa">0</span></div>
     <div id="aa"> </div>
-    <h2>示例二：</h2>
+    <h2>三、dragBgSrc 不为空，defaultPointInfo 为空：</h2>
     <div class="showMouse"><span class="mouseX-bb">0</span><span class="mouseY-bb">0</span></div>
     <div id="bb"> </div>
+    <h2>四、dragBgSrc 为空，defaultPointInfo 不为空：</h2>
+    <div class="showMouse"><span class="mouseX-cc">0</span><span class="mouseY-cc">0</span></div>
+    <div id="cc"> </div>
 </div>
 </body>
 <script>
 $(function(){
+	$().canvasDrag();
 	$().canvasDrag({
 		operationPanel: "#aa",
 		dragBgSrc: "2.png",
@@ -37,6 +44,12 @@ $(function(){
 		dragBgSrc: "1.png",
 		mouseX: ".showMouse .mouseX-bb",
 		mouseY: ".showMouse .mouseY-bb"
+	});
+	$().canvasDrag({
+		operationPanel: "#cc",
+		defaultPointInfo: [58,189,440,87,475,211,92,314],
+		mouseX: ".showMouse .mouseX-cc",
+		mouseY: ".showMouse .mouseY-cc"
 	});
 });
 </script>
