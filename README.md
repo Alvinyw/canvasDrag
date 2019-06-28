@@ -10,13 +10,13 @@
 引入上面两个文件之后，即可调用该插件了：
 ```javascript
 $(function () {
-    $().canvasDrag(); //不改变默认参数的用法
+    $(targetID).canvasDrag(); //不改变默认参数的用法
 });
 ```
 
 ## 插件参数配置
 ```javascript
-$().canvasDrag({
+$(targetID).canvasDrag({
 	operationPanel: "#operationPanel", //画板的根部容器
 	canvasWrapperClass: "canvasDragWrapper", //画板容器
 	dragBgContentClass: "dragBgContent", //画板的背景图容器
