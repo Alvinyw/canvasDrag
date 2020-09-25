@@ -1,7 +1,7 @@
 # canvasDrag
 用 Canvas 实现通过鼠标拖拽改变四边形形状的功能
 
-## 插件用法
+## 一、通过 script 脚本引入
 ```html
 <script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript" src="canvasDrag.min.js"></script>
@@ -10,11 +10,60 @@
 引入上面两个文件之后，即可调用该插件了：
 ```javascript
 $(function () {
-    $(targetID).canvasDrag(); //不改变默认参数的用法
+    $(targetID).canvasDrag({...});
 });
 ```
 
-## 插件参数配置
+## 二、通过 Node 引用
+
+```javascript
+npm i alvin-canvasdrag
+```
+
+在 VUE 的 SPA 中的使用示例：
+
+```html
+<template>
+  <div id="main">
+    <a href="javascript:void(0)" @click="fuc_getPointInfo">getPointInfo</a>
+    <div id="canvasdrag"></div>
+  </div>
+</template>
+<script>
+import createCanvasDrag from "alvin-canvasdrag";
+export default {
+  name: "CanvasDrag",
+  data() {
+    return {
+      canvasdrag: "",
+    };
+  },
+  mounted() {
+    var cfg = {
+      operationPanel: "#canvasdrag",
+      defaultPointInfo: [58, 189, 440, 87, 475, 211, 92, 314],
+    };
+    this.canvasdrag = createCanvasDrag(cfg);
+  },
+  methods: {
+    fuc_getPointInfo() {
+      if (!this.canvasdrag) {
+        return false;
+      }
+      this.canvasdrag.getPointInfo();
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+#canvasdrag {
+  width: 600px;
+  height: 400px;
+}
+</style>
+```
+
+## 三、canvasDrag 的参数配置
 ```javascript
 $(targetID).canvasDrag({
 	operationPanel: "#operationPanel", //画板的根部容器
@@ -49,6 +98,9 @@ $(targetID).canvasDrag({
 - **半径**：圆心到圆边框中心的距离；
 - **pointInfo**：四个角点的坐标数组；当 defaultPointInfo 为有效值时，pointInfo = defaultPointInfo；当 defaultPointInfo 为 0 dragBgSrc 为有效值时，pointInfo 等于图片（src 为 dragBgSrc）四个角点的坐标；当 defaultPointInfo 和 dragBgSrc 都为空时，pointInfo 为画板四个角点的坐标；
 
-## 示例
+## 四、canvasDrag 的 APIs
+1. `getPointInfo()`：获取四个角点的最新坐标；
+
+## 五、示例
 
 [canvasDrag Demo](https://alvinyw.github.io/Blog/canvasDrag/canvasDrag.html)
