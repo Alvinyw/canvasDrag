@@ -1,20 +1,7 @@
 # canvasDrag
 用 Canvas 实现通过鼠标拖拽改变四边形形状的功能
 
-## 一、通过 script 脚本引入
-```html
-<script type="text/javascript" src="jquery.min.js"></script>
-<script type="text/javascript" src="canvasDrag.min.js"></script>
-<div id="operationPanel"></div>
-```
-引入上面两个文件之后，即可调用该插件了：
-```javascript
-$(function () {
-    $(targetID).canvasDrag({...});
-});
-```
-
-## 二、通过 Node 引用
+## 一、通过 Node 引用
 
 ```javascript
 npm i alvin-canvasdrag
@@ -61,6 +48,19 @@ export default {
   height: 400px;
 }
 </style>
+```
+
+## 二、通过 script 脚本引入
+```html
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="canvasDrag.min.js"></script>
+<div id="operationPanel"></div>
+```
+引入上面两个文件之后，即可调用该插件了：
+```javascript
+$(function () {
+    $(targetID).canvasDrag({...});
+});
 ```
 
 ## 三、canvasDrag 的参数配置
